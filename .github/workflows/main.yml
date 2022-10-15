@@ -16,6 +16,15 @@ jobs:
       with:
         repository: 'lkeme/BiliHelper-personal'
 
+    - name: Cache token
+      uses: actions/cache@v2
+      with:
+        path: |
+          ./profile/user/
+        key: ${{ github.workflow }}-${{ github.run_id }}
+        restore-keys: |
+          ${{ github.workflow }}-
+
     - name: Config
       run: |
         cp -r profile/example profile/user
