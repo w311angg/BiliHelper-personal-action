@@ -1,0 +1,43 @@
+name: BiliHelper
+
+on:
+  schedule:
+    cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: 'lkeme/BiliHelper-personal'
+
+    - name: Config
+      run: |
+        cp -r profile/example profile/user
+        echo '${{ secrets.config }}' > profile/user/config/user.ini
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Set proxy
+      uses: w311ang/setproxy@main
+      with:
+        config: ${{ secrets.ss_config }}
+        password: ${{ secrets.frp_auth }}
+        redirect: ${{ secrets.frp_redirect }}
+
+    - name: Run test suite
+      run: proxychains php app.php m:a
