@@ -26,9 +26,11 @@ jobs:
           ${{ github.workflow }}-
 
     - name: Config
+      env:
+        config: ${{ secrets.config }}
       run: |
         cp -r profile/example profile/user
-        echo '${{ secrets.config }}' > profile/user/config/user.ini
+        echo "$config"|base64 -d > profile/user/config/user.ini
 
     - name: Cache Composer packages
       id: composer-cache
