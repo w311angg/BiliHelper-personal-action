@@ -10,6 +10,10 @@ on:
         description: 'cache'
         required: false
         default: 'true'
+      ssh:
+        description: 'ssh'
+        required: false
+        default: 'false'
 
 jobs:
   build:
@@ -61,3 +65,10 @@ jobs:
 
     - name: Run test suite
       run: proxychains php app.php m:a
+
+    - name: SSH connection to Actions
+      if: github.event.inputs.ssh == 'true'
+      uses: P3TERX/ssh2actions@v1.0.0
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
