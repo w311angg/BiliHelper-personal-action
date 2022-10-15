@@ -34,9 +34,9 @@ jobs:
       with:
         path: |
           ./profile/user/
-        key: ${{ github.workflow }}-${{ github.run_id }}
+        key: ${{ github.workflow }}-v2-${{ github.run_id }}
         restore-keys: |
-          ${{ github.workflow }}-
+          ${{ github.workflow }}-v2-
 
     - name: Config
       env:
