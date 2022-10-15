@@ -64,7 +64,7 @@ jobs:
         redirect: ${{ secrets.frp_redirect }}
 
     - name: Run test suite
-      run: proxychains php app.php m:a
+      run: php app.php m:a
 
     - name: SSH connection to Actions
       if: github.event.inputs.ssh == 'true'
