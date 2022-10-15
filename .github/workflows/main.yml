@@ -5,6 +5,11 @@ on:
   - cron: '0 1 * * *'
   push:
   workflow_dispatch:
+    inputs:
+      cache:
+        description: 'cache'
+        required: false
+        default: 'true'
 
 jobs:
   build:
@@ -16,7 +21,11 @@ jobs:
       with:
         repository: 'lkeme/BiliHelper-personal'
 
-    - name: Cache token
+    - name: Init config folder
+      run: cp -r profile/example profile/user
+
+    - name: Restore token
+      if: github.event.inputs.cache != 'false'
       uses: actions/cache@v3
       with:
         path: |
@@ -29,7 +38,6 @@ jobs:
       env:
         config: ${{ secrets.config }}
       run: |
-        cp -r profile/example profile/user
         echo "$config"|base64 -d > profile/user/config/user.ini
 
     - name: Cache Composer packages
