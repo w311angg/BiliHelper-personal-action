@@ -3,6 +3,7 @@ name: BiliHelper
 on:
   schedule:
   - cron: '0 1 * * *'
+  push:
   workflow_dispatch:
 
 jobs:
