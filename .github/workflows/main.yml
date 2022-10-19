@@ -64,7 +64,7 @@ jobs:
         redirect: ${{ secrets.frp_redirect }}
 
     - name: Run test suite
-      run: php app.php m:a
+      run: timeout 30 php app.php m:a || echo Timeout!
 
     - name: SSH connection to Actions
       if: github.event.inputs.ssh == 'true'
