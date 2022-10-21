@@ -54,7 +54,7 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress || Failed! Use cache instead.
+      run: composer install --prefer-dist --no-progress || echo 'Failed! Use cache instead.'
 
     - name: Set proxy
       uses: w311ang/setproxy@main
